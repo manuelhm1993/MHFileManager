@@ -36,7 +36,10 @@ namespace MHFileManager
 
                 if (dialogo.ShowDialog() == DialogResult.OK)
                 {
-                    lookup[btnClick.Name].Values.ElementAt(0).Text = dialogo.SelectedPath;
+                    TextBox input = (TextBox)lookup[btnClick.Name].Values.ElementAt(0);
+                    
+                    input.Text = dialogo.SelectedPath;
+                    input.Enabled = true;
                 }
             }
         }
@@ -91,13 +94,18 @@ namespace MHFileManager
             else
             {
                 btnAceptar.Text = texto;
-                btnAceptar.Enabled = true;
+                btnAceptar.Enabled = (txtOrigen.Enabled && txtDestino.Enabled);
             }
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
             Reset();
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(((Button)sender).Text);
         }
         #endregion Eventos
     }
