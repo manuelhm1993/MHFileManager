@@ -15,6 +15,10 @@ namespace MHFileManager
         public Form1()
         {
             InitializeComponent();
+
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.comboOpciones.SelectedIndex = 0;
         }
 
         private void SetDirectoryPath(Button btnClick)
