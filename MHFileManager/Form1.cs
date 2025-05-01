@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,73 @@ namespace MHFileManager
             // Combos
             this.comboOpciones.SelectedIndex = 0;
         }
+
+        private void Copiar(string rutaArchivoOrigen, string rutaArchivoDestino)
+        {
+            // EjecutarAccion el archivo
+            File.Copy(rutaArchivoOrigen, rutaArchivoDestino, true); // true para sobrescribir si existe
+        }
+
+        private void Mover(string rutaArchivoOrigen, string rutaArchivoDestino)
+        {
+            // EjecutarAccion el archivo
+            Directory.Move(rutaArchivoOrigen, rutaArchivoDestino);
+        }
+
+        private void EjecutarAccion(string directorioOrigen, string directorioDestino, string accion)
+        {
+            // Crear el directorio de destino si no existe
+            if (!Directory.Exists(directorioDestino))
+            {
+                Directory.CreateDirectory(directorioDestino);
+            }
+
+            // Obtener todos los archivos en el directorio de origen
+            string[] archivos = Directory.GetFiles(directorioOrigen);
+
+            // Obtener todos los subdirectorios en el directorio de origen
+            string[] subdirectorios = Directory.GetDirectories(directorioOrigen);
+
+            foreach (string archivo in archivos)
+            {
+                // Calcular la ruta completa del archivo de origen y destino
+                string rutaArchivoOrigen = archivo;
+                string rutaArchivoDestino = Path.Combine(directorioDestino, Path.GetFileName(archivo));
+
+                try
+                {
+                    if (accion.Equals("Copiar"))
+                    {
+                        Copiar(rutaArchivoOrigen, rutaArchivoDestino);
+                    }
+                    else if (accion.Equals("Mover"))
+                    {
+                        Mover(rutaArchivoOrigen, rutaArchivoDestino);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show($"Error procesando '{rutaArchivoOrigen}': {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            foreach (string subdirectorio in subdirectorios)
+            {
+                // Calcular la ruta completa del subdirectorio de origen y destino
+                string rutaSubdirectorioOrigen = subdirectorio;
+                string rutaSubdirectorioDestino = Path.Combine(directorioDestino, Path.GetFileName(subdirectorio));
+
+                // EjecutarAccion el subdirectorio de forma recursiva
+                EjecutarAccion(rutaSubdirectorioOrigen, rutaSubdirectorioDestino, accion);
+            }
+
+            MessageBox.Show("La acción fue completada exitosamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Reset();
+        }
         #endregion Mis Métodos
 
         #region Eventos
@@ -105,7 +173,13 @@ namespace MHFileManager
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(((Button)sender).Text);
+            string accion = ((Button)sender).Text;
+            string origen = txtOrigen.Text;
+            string destino = txtDestino.Text;
+
+            MessageBox.Show($"Acción: {accion}\nOrigen: {origen}\nDestino: {destino}", "Debug");
+
+            EjecutarAccion(origen, destino, accion);
         }
         #endregion Eventos
     }
