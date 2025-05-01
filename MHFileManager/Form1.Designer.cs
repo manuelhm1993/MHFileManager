@@ -88,6 +88,7 @@
             this.comboOpciones.Name = "comboOpciones";
             this.comboOpciones.Size = new System.Drawing.Size(358, 28);
             this.comboOpciones.TabIndex = 4;
+            this.comboOpciones.SelectedIndexChanged += new System.EventHandler(this.comboOpciones_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -131,6 +132,7 @@
             this.btnReset.TabIndex = 5;
             this.btnReset.Text = "Resetear";
             this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // Form1
             // 
@@ -145,6 +147,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MHFileManager";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

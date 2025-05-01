@@ -15,22 +15,19 @@ namespace MHFileManager
         public Form1()
         {
             InitializeComponent();
-
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.comboOpciones.SelectedIndex = 0;
         }
 
+        #region Mis Métodos
         private void SetDirectoryPath(Button btnClick)
         {
             // Esta sintaxis de using permite que un objeto que usa recursos del SO se libere con Dispose() automáticamente
             using (FolderBrowserDialog dialogo = new FolderBrowserDialog())
             {
                 // Lookup table o mapeo de objetos
-                Dictionary<string, Dictionary<bool, Control>> lookup = new Dictionary<string, Dictionary<bool, Control>>
+                Dictionary<string, Dictionary<bool, Control>> lookup = new Dictionary<string, Dictionary<bool, Control>>()
                 {
-                    { "btnOrigen", new Dictionary<bool, Control> { { false, txtOrigen } } },
-                    { "btnDestino", new Dictionary<bool, Control> { { true, txtDestino } } }
+                    { "btnOrigen", new Dictionary<bool, Control>() { { false, txtOrigen } } },
+                    { "btnDestino", new Dictionary<bool, Control>() { { true, txtDestino } } }
                 };
 
 
@@ -44,6 +41,34 @@ namespace MHFileManager
             }
         }
 
+        private void Reset()
+        {
+            // Formulario
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
+            // Botones
+            this.btnAceptar.Enabled = false;
+            this.btnAceptar.Text = "Aceptar";
+
+            // TextBox
+            this.txtOrigen.Enabled = false;
+            this.txtDestino.Enabled = false;
+
+            this.txtOrigen.Text = "Seleccione un archivo o carpeta";
+            this.txtDestino.Text = "Seleccione una carpeta";
+
+            // Combos
+            this.comboOpciones.SelectedIndex = 0;
+        }
+        #endregion Mis Métodos
+
+        #region Eventos
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Reset();
+        }
+
         private void origen_Click(object sender, EventArgs e)
         {
             SetDirectoryPath((Button)sender);
@@ -53,5 +78,27 @@ namespace MHFileManager
         {
             SetDirectoryPath((Button)sender);
         }
+
+        private void comboOpciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string texto = ((ComboBox)sender).SelectedItem.ToString();
+
+            if (texto.Equals("Seleccione una opción"))
+            {
+                btnAceptar.Text = "Aceptar";
+                btnAceptar.Enabled = false;
+            }
+            else
+            {
+                btnAceptar.Text = texto;
+                btnAceptar.Enabled = true;
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            Reset();
+        }
+        #endregion Eventos
     }
 }
