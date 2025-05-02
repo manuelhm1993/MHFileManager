@@ -152,7 +152,9 @@ namespace MHFileManager
 
         private void EjecutarAccion(string directorioOrigen, string directorioDestino, string accion)
         {
-            // Crear el directorio de destino si no existe
+            string folderName = Path.GetFileName(directorioOrigen.TrimEnd(Path.DirectorySeparatorChar));
+            directorioDestino = Path.Combine(directorioDestino, folderName);
+
             if (!Directory.Exists(directorioDestino))
             {
                 Directory.CreateDirectory(directorioDestino);
