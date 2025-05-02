@@ -95,6 +95,9 @@
   <ItemGroup>
     <Content Include="Assets\Images\Logos\logo.ico" />
     <Content Include="Assets\Images\Logos\logo.jpg" />
+    <Content Include="Assets\Instalador\innosetup-6.4.2.exe" />
+    <Content Include="Assets\Instalador\mysetup.exe" />
+    <Content Include="Assets\Instalador\ScriptInstalador.iss" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
