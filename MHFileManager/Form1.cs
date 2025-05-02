@@ -70,7 +70,7 @@ namespace MHFileManager
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                dialog.Filter = "Imágenes y Documentos Office|*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.doc;*.docx;*.xls;*.xlsx;*.ppt;*.pptx|Imágenes (*.jpg, *.jpeg, *.png, *.bmp, *.gif)|*.jpg;*.jpeg;*.png;*.bmp;*.gif|Documentos Office (*.doc, *.docx, *.xls, *.xlsx, *.ppt, *.pptx)|*.doc;*.docx;*.xls;*.xlsx;*.ppt;*.pptx|Todos los archivos (*.*)|*.*";
                 dialog.Multiselect = multiSelect;
 
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -177,9 +177,6 @@ namespace MHFileManager
                 // EjecutarAccion el subdirectorio de forma recursiva
                 EjecutarAccion(rutaSubdirectorioOrigen, rutaSubdirectorioDestino, accion);
             }
-
-            MessageBox.Show("La acción fue completada exitosamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Reset();
         }
         #endregion Mis Métodos
 
@@ -227,15 +224,26 @@ namespace MHFileManager
             Reset();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             string accion = ((Button)sender).Text;
             string origen = txtOrigen.Text;
             string destino = txtDestino.Text;
 
-            MessageBox.Show($"Acción: {accion}\nOrigen: {origen}\nDestino: {destino}", "Debug");
+            using (FormProgress formProgress = new FormProgress())
+            {
+                formProgress.Show();
 
-            EjecutarAccion(origen, destino, accion);
+                await Task.Delay(100); // Deja renderizar
+
+                // Ejecuta la acción de manera asincrónica en otro hilo
+                await Task.Run(() => EjecutarAccion(origen, destino, accion));
+
+                formProgress.Close();
+            }
+
+            MessageBox.Show("La acción fue completada exitosamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Reset();
         }
         #endregion Eventos
     }

@@ -35,16 +35,16 @@
             this.txtDestino = new System.Windows.Forms.TextBox();
             this.comboOpciones = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.archivos = new System.Windows.Forms.RadioButton();
+            this.archivo = new System.Windows.Forms.RadioButton();
+            this.carpeta = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.carpeta = new System.Windows.Forms.RadioButton();
-            this.archivo = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.archivos = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOrigen
@@ -109,6 +109,50 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selectores";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.archivos);
+            this.groupBox3.Controls.Add(this.archivo);
+            this.groupBox3.Controls.Add(this.carpeta);
+            this.groupBox3.Location = new System.Drawing.Point(6, 85);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(428, 66);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Tipo de origen";
+            // 
+            // archivos
+            // 
+            this.archivos.AutoSize = true;
+            this.archivos.Location = new System.Drawing.Point(176, 25);
+            this.archivos.Name = "archivos";
+            this.archivos.Size = new System.Drawing.Size(128, 24);
+            this.archivos.TabIndex = 5;
+            this.archivos.Text = "Muchos archivos";
+            this.archivos.UseVisualStyleBackColor = true;
+            // 
+            // archivo
+            // 
+            this.archivo.AutoSize = true;
+            this.archivo.Location = new System.Drawing.Point(91, 25);
+            this.archivo.Name = "archivo";
+            this.archivo.Size = new System.Drawing.Size(83, 24);
+            this.archivo.TabIndex = 4;
+            this.archivo.Text = "1 Archivo";
+            this.archivo.UseVisualStyleBackColor = true;
+            // 
+            // carpeta
+            // 
+            this.carpeta.AutoSize = true;
+            this.carpeta.Checked = true;
+            this.carpeta.Location = new System.Drawing.Point(6, 25);
+            this.carpeta.Name = "carpeta";
+            this.carpeta.Size = new System.Drawing.Size(73, 24);
+            this.carpeta.TabIndex = 0;
+            this.carpeta.TabStop = true;
+            this.carpeta.Text = "Carpeta";
+            this.carpeta.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnReset);
@@ -141,50 +185,6 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
-            // carpeta
-            // 
-            this.carpeta.AutoSize = true;
-            this.carpeta.Checked = true;
-            this.carpeta.Location = new System.Drawing.Point(6, 25);
-            this.carpeta.Name = "carpeta";
-            this.carpeta.Size = new System.Drawing.Size(73, 24);
-            this.carpeta.TabIndex = 0;
-            this.carpeta.TabStop = true;
-            this.carpeta.Text = "Carpeta";
-            this.carpeta.UseVisualStyleBackColor = true;
-            // 
-            // archivo
-            // 
-            this.archivo.AutoSize = true;
-            this.archivo.Location = new System.Drawing.Point(91, 25);
-            this.archivo.Name = "archivo";
-            this.archivo.Size = new System.Drawing.Size(83, 24);
-            this.archivo.TabIndex = 4;
-            this.archivo.Text = "1 Archivo";
-            this.archivo.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.archivos);
-            this.groupBox3.Controls.Add(this.archivo);
-            this.groupBox3.Controls.Add(this.carpeta);
-            this.groupBox3.Location = new System.Drawing.Point(6, 85);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(428, 66);
-            this.groupBox3.TabIndex = 6;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Tipo de origen";
-            // 
-            // archivos
-            // 
-            this.archivos.AutoSize = true;
-            this.archivos.Location = new System.Drawing.Point(176, 25);
-            this.archivos.Name = "archivos";
-            this.archivos.Size = new System.Drawing.Size(128, 24);
-            this.archivos.TabIndex = 5;
-            this.archivos.Text = "Muchos archivos";
-            this.archivos.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -201,9 +201,9 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
