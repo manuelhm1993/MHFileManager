@@ -61,6 +61,22 @@ namespace MHFileManager
             }
         }
 
+        private string getDirectorio(string[] files)
+        {
+            string path = files[0];
+
+            for(int i = (path.Length - 1); i >=0; i--)
+            {
+                if (path[i] == '\\')
+                {
+                    path = path.Substring(0, i);
+                    break;
+                }
+            }
+
+            return path;
+        }
+
         private void SetFilePath(bool multiSelect)
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
@@ -70,7 +86,7 @@ namespace MHFileManager
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    txtOrigen.Text = dialog.FileName;
+                    txtOrigen.Text = multiSelect ? getDirectorio(dialog.FileNames) : dialog.FileName;
                     txtOrigen.Enabled = true;
                 }
             }
@@ -220,7 +236,7 @@ namespace MHFileManager
 
             MessageBox.Show($"Acción: {accion}\nOrigen: {origen}\nDestino: {destino}", "Debug");
 
-            //EjecutarAccion(origen, destino, accion);
+            EjecutarAccion(origen, destino, accion);
         }
         #endregion Eventos
     }
