@@ -117,19 +117,10 @@ namespace MHFileManager
             Directory.Move(rutaArchivoOrigen, rutaArchivoDestino);
         }
 
-        private void EjecutarAccion(string directorioOrigen, string directorioDestino, string accion)
+        private void ManipularArchivos(string directorioOrigen, string directorioDestino, string accion)
         {
-            // Crear el directorio de destino si no existe
-            if (!Directory.Exists(directorioDestino))
-            {
-                Directory.CreateDirectory(directorioDestino);
-            }
-
             // Obtener todos los archivos en el directorio de origen
             string[] archivos = Directory.GetFiles(directorioOrigen);
-
-            // Obtener todos los subdirectorios en el directorio de origen
-            string[] subdirectorios = Directory.GetDirectories(directorioOrigen);
 
             foreach (string archivo in archivos)
             {
@@ -152,14 +143,33 @@ namespace MHFileManager
                         return;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show($"Error procesando '{rutaArchivoOrigen}': {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void EjecutarAccion(string directorioOrigen, string directorioDestino, string accion)
+        {
+            // Crear el directorio de destino si no existe
+            if (!Directory.Exists(directorioDestino))
+            {
+                Directory.CreateDirectory(directorioDestino);
+            }
+
+            ManipularArchivos(directorioOrigen, directorioDestino, accion);
+
+            // Obtener todos los subdirectorios en el directorio de origen
+            string[] subdirectorios = Directory.GetDirectories(directorioOrigen);
 
             foreach (string subdirectorio in subdirectorios)
             {
+                if (!Directory.Exists(subdirectorio))
+                {
+                    Directory.CreateDirectory(subdirectorio);
+                }
+
                 // Calcular la ruta completa del subdirectorio de origen y destino
                 string rutaSubdirectorioOrigen = subdirectorio;
                 string rutaSubdirectorioDestino = Path.Combine(directorioDestino, Path.GetFileName(subdirectorio));
