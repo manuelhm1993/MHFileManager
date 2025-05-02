@@ -32,15 +32,46 @@ namespace MHFileManager
                 };
 
 
-                dialogo.Description = "Selecciona la carpeta de origen";
+                dialogo.Description = $"Selecciona la carpeta de { (btnClick.Name.Equals("btnOrigen") ? "origen" : "destino") }";
                 dialogo.ShowNewFolderButton = lookup[btnClick.Name].Keys.ElementAt(0);
 
                 if (dialogo.ShowDialog() == DialogResult.OK)
                 {
                     TextBox input = (TextBox)lookup[btnClick.Name].Values.ElementAt(0);
-                    
+
                     input.Text = dialogo.SelectedPath;
                     input.Enabled = true;
+                }
+            }
+        }
+
+        private void SetDirectoryPath()
+        {
+            // Esta sintaxis de using permite que un objeto que usa recursos del SO se libere con Dispose() automáticamente
+            using (FolderBrowserDialog dialogo = new FolderBrowserDialog())
+            {
+                dialogo.Description = "Selecciona la carpeta de destino";
+                dialogo.ShowNewFolderButton = true; // Esto permite crear nuevas carpetas
+
+                if (dialogo.ShowDialog() == DialogResult.OK)
+                {
+                    txtDestino.Text = dialogo.SelectedPath;
+                    txtDestino.Enabled = true;
+                }
+            }
+        }
+
+        private void SetFilePath(bool multiSelect)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                dialog.Multiselect = multiSelect;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    txtOrigen.Text = dialog.FileName;
+                    txtOrigen.Enabled = true;
                 }
             }
         }
@@ -64,6 +95,9 @@ namespace MHFileManager
 
             // Combos
             this.comboOpciones.SelectedIndex = 0;
+
+            // Radios
+            carpeta.Checked = true;
         }
 
         private void Copiar(string rutaArchivoOrigen, string rutaArchivoDestino)
@@ -142,12 +176,19 @@ namespace MHFileManager
 
         private void origen_Click(object sender, EventArgs e)
         {
-            SetDirectoryPath((Button)sender);
+            if (this.carpeta.Checked)
+            {
+                SetDirectoryPath((Button)sender);
+            }
+            else
+            {
+                SetFilePath(this.archivos.Checked);
+            }
         }
 
         private void btnDestino_Click(object sender, EventArgs e)
         {
-            SetDirectoryPath((Button)sender);
+            SetDirectoryPath();
         }
 
         private void comboOpciones_SelectedIndexChanged(object sender, EventArgs e)
@@ -179,7 +220,7 @@ namespace MHFileManager
 
             MessageBox.Show($"Acción: {accion}\nOrigen: {origen}\nDestino: {destino}", "Debug");
 
-            EjecutarAccion(origen, destino, accion);
+            //EjecutarAccion(origen, destino, accion);
         }
         #endregion Eventos
     }
