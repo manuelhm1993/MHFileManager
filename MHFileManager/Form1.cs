@@ -61,20 +61,9 @@ namespace MHFileManager
             }
         }
 
-        private string getDirectorio(string[] files)
+        private string getDirectorio(string file)
         {
-            string path = files[0];
-
-            for(int i = (path.Length - 1); i >=0; i--)
-            {
-                if (path[i] == '\\')
-                {
-                    path = path.Substring(0, i);
-                    break;
-                }
-            }
-
-            return path;
+            return Directory.GetParent(file).FullName;
         }
 
         private void SetFilePath(bool multiSelect)
@@ -86,7 +75,7 @@ namespace MHFileManager
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    txtOrigen.Text = multiSelect ? getDirectorio(dialog.FileNames) : dialog.FileName;
+                    txtOrigen.Text = multiSelect ? getDirectorio(dialog.FileNames[0]) : dialog.FileName;
                     txtOrigen.Enabled = true;
                 }
             }
