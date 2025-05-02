@@ -152,32 +152,50 @@ namespace MHFileManager
 
         private void EjecutarAccion(string directorioOrigen, string directorioDestino, string accion)
         {
-            string folderName = Path.GetFileName(directorioOrigen.TrimEnd(Path.DirectorySeparatorChar));
-            directorioDestino = Path.Combine(directorioDestino, folderName);
-
-            if (!Directory.Exists(directorioDestino))
+            if (Directory.Exists(directorioOrigen))
             {
-                Directory.CreateDirectory(directorioDestino);
-            }
+                // Es un directorio
+                string folderName = Path.GetFileName(directorioOrigen.TrimEnd(Path.DirectorySeparatorChar));
+                directorioDestino = Path.Combine(directorioDestino, folderName);
 
-            ManipularArchivos(directorioOrigen, directorioDestino, accion);
-
-            // Obtener todos los subdirectorios en el directorio de origen
-            string[] subdirectorios = Directory.GetDirectories(directorioOrigen);
-
-            foreach (string subdirectorio in subdirectorios)
-            {
-                if (!Directory.Exists(subdirectorio))
+                if (!Directory.Exists(directorioDestino))
                 {
-                    Directory.CreateDirectory(subdirectorio);
+                    Directory.CreateDirectory(directorioDestino);
                 }
 
-                // Calcular la ruta completa del subdirectorio de origen y destino
-                string rutaSubdirectorioOrigen = subdirectorio;
-                string rutaSubdirectorioDestino = Path.Combine(directorioDestino, Path.GetFileName(subdirectorio));
+                ManipularArchivos(directorioOrigen, directorioDestino, accion);
 
-                // EjecutarAccion el subdirectorio de forma recursiva
-                EjecutarAccion(rutaSubdirectorioOrigen, rutaSubdirectorioDestino, accion);
+                // Procesar subdirectorios
+                string[] subdirectorios = Directory.GetDirectories(directorioOrigen);
+
+                foreach (string subdirectorio in subdirectorios)
+                {
+                    // Calcular la ruta completa del subdirectorio de origen y destino
+                    string rutaSubdirectorioOrigen = subdirectorio;
+                    string rutaSubdirectorioDestino = Path.Combine(directorioDestino, Path.GetFileName(subdirectorio));
+
+                    // EjecutarAccion el subdirectorio de forma recursiva
+                    EjecutarAccion(rutaSubdirectorioOrigen, rutaSubdirectorioDestino, accion);
+                }
+            }
+            else if (File.Exists(directorioOrigen))
+            {
+                // Es un archivo individual
+                string archivoNombre = Path.GetFileName(directorioOrigen);
+                string rutaArchivoDestino = Path.Combine(directorioDestino, archivoNombre);
+
+                if (accion.Equals("Copiar"))
+                {
+                    Copiar(directorioOrigen, rutaArchivoDestino);
+                }
+                else
+                {
+                    Mover(directorioOrigen, rutaArchivoDestino);
+                }
+            }
+            else
+            {
+                MessageBox.Show("La ruta de origen no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion Mis Métodos
